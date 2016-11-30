@@ -4,23 +4,28 @@
     <title>Маршрут с учётом пробок</title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <script src="http://api-maps.yandex.ru/2.0/?load=package.standard,package.geoObjects,package.route&lang=ru-RU"
-            type="text/javascript"></script>
     <script src="http://yandex.st/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
-    <div id="page-wrapper">
-        <strong> Выберите txt-файл с дорогами :
-            <input type="file" id="fileInput"> </strong>
-        <pre id="fileDisplayArea"></pre>
-    </div>
-    <p id="result"></p>
-    <p>&nbsp;</p>
-    <strong> Нужно создать и скачать файл </strong>
-    <button id="create">Create file</button>
-    <a download="info.txt" id="downloadlink" style="display: none">Download</a>
-
-    <script src="script.js" type="text/javascript"></script>
-    <!--<script src="recursiveScript.js" type="text/javascript"></script>-->
+<div>
+    <button id="request">Execute</button>
+    <span id="status"></span>
+</div>
+<br>
+<div>
+    <a download="result.txt" href="result.txt">Download</a>
+</div>
 </body>
+<script>
+    $("#request").click(function () {
+        $("#status").text("Loading...");
+        $.ajax("/routes", {
+            type: "POST",
+            success: function () {
+                $("#status").text("Done!");
+            }
+        });
+    })
+
+</script>
 </html>

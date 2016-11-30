@@ -1,0 +1,7 @@
+node_modules/*
+.DS_Store
+.grunt
+.idea
+Thumbs.db
+.node-persist/
+result.txt
