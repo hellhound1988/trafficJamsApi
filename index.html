@@ -8,20 +8,40 @@
 </head>
 <body>
 <div>
-    <button id="request">Execute</button>
-    <span id="status"></span>
+    <button id="request-all">Request All</button>
+    <span id="status-all"></span>
 </div>
 <br>
 <div>
-    <a download="result.txt" href="result.txt">Download</a>
+    <input id="request-text" type="text" style="width: 300px">
+    <button id="request">Request</button>
+    <span id="status"></span>
+</div>
+<br>
+<div id="data">
 </div>
 </body>
 <script>
+    $("#request-all").click(function () {
+        $("#status-all").text("Loading...");
+        $("#data").empty();
+        $.ajax("/routes", {
+            success: function (data) {
+                data.forEach(function (item, index) {
+                    $("#data").append("<div>Line " + index + ": " + item.route + "</div>");
+                });
+                $("#status-all").text("Done!");
+            }
+        });
+    });
+
     $("#request").click(function () {
         $("#status").text("Loading...");
-        $.ajax("/routes", {
-            type: "POST",
-            success: function () {
+        $("#data").empty();
+        var text = encodeURIComponent($("#request-text").val());
+        $.ajax("/route?data=" + text, {
+            success: function (data) {
+                $("#data").append("<div>Result: " + data.route + "</div>");
                 $("#status").text("Done!");
             }
         });
